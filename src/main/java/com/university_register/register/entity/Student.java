@@ -31,4 +31,7 @@ public class Student {
 
     @ManyToMany(mappedBy = "students")
     private Set<Teacher> teachers;
+
+    @ManyToOne()
+    private Program program;
 }

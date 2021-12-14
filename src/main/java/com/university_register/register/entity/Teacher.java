@@ -35,4 +35,9 @@ public class Teacher {
             ,joinColumns = @JoinColumn(name = "teacher_id")
             ,inverseJoinColumns = @JoinColumn(name = "student_id"))
     private Set<Student> students;
+
+
+    @OneToMany(mappedBy = "teacher")
+    private Set<Program> programs;
+
 }

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,8 +14,8 @@ import java.util.Set;
 @Builder
 @Getter
 @Entity
-@Table(name = "durations")
-public class Duration {
+@Table(name = "programs")
+public class Program {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +23,14 @@ public class Duration {
 
     @NotNull
     @Column(nullable = false,unique = true)
-    @Range(min = 1,max = 4,message = "Duration can be between 1 and 4 years")
-    private Integer years;
+    private String name;
 
-    @OneToMany(mappedBy = "duration")
-    private Set<Program> programs;
+    @OneToMany(mappedBy = "program")
+    private Set<Student> students;
+
+    @ManyToOne
+    private Teacher teacher;
+
+    @ManyToOne
+    private Duration duration;
 }
