@@ -28,5 +28,5 @@ public class Duration {
     private Integer years;
 
     @OneToMany(mappedBy = "duration")
-    private Set<Program> programs;
+    private Set<StudentProgram> programs;
 }

@@ -14,8 +14,8 @@ import java.util.Set;
 @Builder
 @Getter
 @Entity
-@Table(name = "programs")
-public class Program {
+@Table(name = "student_programs")
+public class StudentProgram {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,12 +25,14 @@ public class Program {
     @Column(nullable = false,unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "program")
-    private Set<Student> students;
+  @OneToMany(mappedBy = "studentProgram")
+   private Set<Student> students;
 
     @ManyToOne
+    @JoinColumn(name = "teacher_id", foreignKey = @ForeignKey (name = "fk_teacher_id"))
     private Teacher teacher;
 
     @ManyToOne
+    @JoinColumn(name = "duration_id", foreignKey = @ForeignKey (name = "fk_duration_id"))
     private Duration duration;
 }

@@ -33,5 +33,6 @@ public class Student {
     private Set<Teacher> teachers;
 
     @ManyToOne()
-    private Program program;
+    @JoinColumn(name = "student_program_id", foreignKey = @ForeignKey (name = "fk_student_program_id"))
+    private StudentProgram studentProgram;
 }

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -38,6 +37,6 @@ public class Teacher {
 
 
     @OneToMany(mappedBy = "teacher")
-    private Set<Program> programs;
+    private Set<StudentProgram> studentPrograms;
 
 }
