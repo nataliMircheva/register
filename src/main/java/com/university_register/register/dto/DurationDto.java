@@ -5,17 +5,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Builder
-public class TeacherDto {
+public class DurationDto {
 
     private Long id;
-    private String fullName;
-    @Column(nullable = true)
+    private Integer years;
     private Set<Long> studentProgramIds;
 }

@@ -30,13 +30,13 @@ public class Teacher {
     private String ucn;
 
     @ManyToMany
-    @JoinTable(name = "teachers_students"
+    @JoinTable(name = "teachers_studentPrograms"
             ,joinColumns = @JoinColumn(name = "teacher_id")
-            ,inverseJoinColumns = @JoinColumn(name = "student_id"))
-    private Set<Student> students;
-
-
-    @OneToMany(mappedBy = "teacher")
+            ,inverseJoinColumns = @JoinColumn(name = "studentProgram_id"))
     private Set<StudentProgram> studentPrograms;
+
+
+//    @OneToMany(mappedBy = "teacher")
+//    private Set<StudentProgram> studentPrograms;
 
 }

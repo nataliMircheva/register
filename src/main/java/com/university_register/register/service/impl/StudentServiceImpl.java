@@ -1,6 +1,7 @@
 package com.university_register.register.service.impl;
 
 import com.university_register.register.entity.Student;
+import com.university_register.register.entity.StudentProgram;
 import com.university_register.register.entity.Teacher;
 import com.university_register.register.exception.DuplicateRecordException;
 import com.university_register.register.exception.ResourceNotFoundException;
@@ -8,7 +9,7 @@ import com.university_register.register.repository.StudentRepository;
 import com.university_register.register.service.StudentProgramService;
 import com.university_register.register.service.StudentService;
 import com.university_register.register.service.TeacherService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +17,18 @@ import java.util.HashSet;
 import java.util.Set;
 @Service
 public  class StudentServiceImpl implements StudentService {
-  private final StudentRepository studentRepository;
 
-  private final StudentProgramService studentProgramService ;
+    private final StudentRepository studentRepository;
 
-    @Autowired
+
+    private final StudentProgramService studentProgramService ;
+
+
     public StudentServiceImpl(StudentRepository studentRepository, StudentProgramService studentProgramService) {
         this.studentRepository = studentRepository;
+
+
+
         this.studentProgramService = studentProgramService;
     }
 
@@ -32,11 +38,14 @@ public  class StudentServiceImpl implements StudentService {
         try {
 
 
+
+
+            StudentProgram studentProgram = studentProgramService.findById(student.getStudentProgram().getId());
+
             return studentRepository.save(Student.builder()
                     .id(student.getId())
                     .fullName(student.getFullName())
-                    .teachers(student.getTeachers())
-                    .studentProgram(student.getStudentProgram())
+                    .studentProgram(studentProgram)
                     .build());
 
 
@@ -68,9 +77,8 @@ public  class StudentServiceImpl implements StudentService {
                 .fullName(student.getFullName())
                 .ucn(student.getUcn())
                 .studentProgram(student.getStudentProgram())
-                .teachers(student.getTeachers())
                 .build();
-        return studentRepository.save(updateStudent) ;
+        return save(updateStudent) ;
     }
 
     @Override

@@ -1,12 +1,16 @@
 package com.university_register.register.service.impl;
 
-import com.university_register.register.entity.Student;
+import com.university_register.register.entity.Duration;
 import com.university_register.register.entity.StudentProgram;
+import com.university_register.register.entity.Teacher;
 import com.university_register.register.exception.DuplicateRecordException;
 import com.university_register.register.exception.ResourceNotFoundException;
 import com.university_register.register.repository.StudentProgramRepository;
+import com.university_register.register.service.DurationService;
 import com.university_register.register.service.StudentProgramService;
 import com.university_register.register.service.StudentService;
+import com.university_register.register.service.TeacherService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -16,27 +20,40 @@ import java.util.Set;
 public class StudentProgramServiceImpl implements StudentProgramService {
 
     private final StudentProgramRepository studentProgramRepository;
+    private final DurationService durationService;
+    private final TeacherService teacherService;
 
 
 
 
 
-    public StudentProgramServiceImpl(StudentProgramRepository studentProgramRepository) {
+
+
+    public StudentProgramServiceImpl(StudentProgramRepository studentProgramRepository, DurationService durationService, @Lazy TeacherService teacherService) {
         this.studentProgramRepository = studentProgramRepository;
+
+        this.durationService = durationService;
+
+
+        this.teacherService = teacherService;
 
     }
 
 
     @Override
     public StudentProgram save(StudentProgram studentProgram) {
-        try {
+
+
+try {
+
+                Duration duration = durationService.findById(studentProgram.getDuration().getId());
 
             return studentProgramRepository.save(StudentProgram.builder()
                     .id(studentProgram.getId())
                     .name(studentProgram.getName())
                     .students(studentProgram.getStudents())
-                    .teacher(studentProgram.getTeacher())
-                    .duration(studentProgram.getDuration())
+                    .teachers(studentProgram.getTeachers())
+                    .duration(duration)
                     .build());
 
         }catch (DataIntegrityViolationException exception){
@@ -67,6 +84,7 @@ public class StudentProgramServiceImpl implements StudentProgramService {
         StudentProgram updateStudentProgram = StudentProgram.builder()
                 .id(foundStudentProgram.getId())
                 .name(studentProgram.getName())
+                .teachers(studentProgram.getTeachers())
                 .students(studentProgram.getStudents())
                 .duration(studentProgram.getDuration())
                 .build();

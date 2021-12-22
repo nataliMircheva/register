@@ -28,9 +28,8 @@ public class StudentProgram {
   @OneToMany(mappedBy = "studentProgram")
    private Set<Student> students;
 
-    @ManyToOne
-    @JoinColumn(name = "teacher_id", foreignKey = @ForeignKey (name = "fk_teacher_id"))
-    private Teacher teacher;
+    @ManyToMany(mappedBy = "studentPrograms")
+    private Set<Teacher> teachers;
 
     @ManyToOne
     @JoinColumn(name = "duration_id", foreignKey = @ForeignKey (name = "fk_duration_id"))

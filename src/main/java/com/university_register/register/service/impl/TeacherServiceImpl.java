@@ -9,6 +9,7 @@ import com.university_register.register.repository.TeacherRepository;
 import com.university_register.register.service.StudentProgramService;
 import com.university_register.register.service.StudentService;
 import com.university_register.register.service.TeacherService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +21,12 @@ public class TeacherServiceImpl implements TeacherService {
 
     private final TeacherRepository teacherRepository;
     private final StudentProgramService studentProgramService;
-    private final StudentService studentService;
 
-    public TeacherServiceImpl(TeacherRepository teacherRepository, StudentProgramService studentProgramService, StudentService studentService) {
+
+    public TeacherServiceImpl(TeacherRepository teacherRepository, StudentProgramService studentProgramService) {
         this.teacherRepository = teacherRepository;
         this.studentProgramService = studentProgramService;
-        this.studentService = studentService;
+
     }
 
 
@@ -39,18 +40,12 @@ public class TeacherServiceImpl implements TeacherService {
                 programs.add(foundProgram);
 
             }
-            Set<Student> students = new HashSet<>();
 
-                    for(Student student: teacher.getStudents()){
-                        Student foundStudent = studentService.findById(student.getId());
-                        students.add(foundStudent);
-                    }
             return teacherRepository.save(Teacher.builder()
                     .id(teacher.getId())
                     .fullName(teacher.getFullName())
-                            .ucn(teacher.getUcn())
+                          .ucn(teacher.getUcn())
                             .studentPrograms(programs)
-                            .students(students)
                             .build());
 
         }catch (DataIntegrityViolationException exception){
@@ -81,8 +76,9 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher updateTeacher = Teacher.builder()
                 .id(foundTeacher.getId())
                 .fullName(teacher.getFullName())
-                .students(teacher.getStudents())
-                .ucn(teacher.getUcn())
+                .studentPrograms(teacher.getStudentPrograms())
+
+               .ucn(teacher.getUcn())
                 .build();
         return teacherRepository.save(updateTeacher);
     }
